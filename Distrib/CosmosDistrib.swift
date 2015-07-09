@@ -257,7 +257,7 @@ class CosmosLayers {
   - returns: Decimal value between 0 and 1 describing the star fill level. 1 is a fully filled star. 0 is an empty star. 0.5 is a half-star.
 
   */
-  class func starFillLevel(ratingRemainder ratingRemainder: Double, fillMode: StarFillMode) -> Double {
+  class func starFillLevel(#ratingRemainder: Double, fillMode: StarFillMode) -> Double {
       
     var result = ratingRemainder
     
@@ -608,7 +608,7 @@ Shows: ★★★★☆ (132)
     self.frame.size = intrinsicContentSize()
   }
   
-  required public init?(coder aDecoder: NSCoder) {
+  required public init(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
   
@@ -686,20 +686,20 @@ Shows: ★★★★☆ (132)
   public var didTouchCosmos: ((Double)->())?
   
   /// Overriding the function to detect the first touch gesture.
-  public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+  public override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
     super.touchesBegan(touches, withEvent: event)
     
-    if let touch = touches.first {
+    if let touch = touches.first as? UITouch {
       let location = touch.locationInView(self).x
       onDidTouch(location, starsWidth: widthOfStars)
     }
   }
   
   /// Overriding the function to detect touch move.
-  public override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+  public override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
     super.touchesMoved(touches, withEvent: event)
     
-    if let touch = touches.first {
+    if let touch = touches.first as? UITouch {
       let location = touch.locationInView(self).x
       onDidTouch(location, starsWidth: widthOfStars)
     }
@@ -730,7 +730,8 @@ Shows: ★★★★☆ (132)
   var widthOfStars: CGFloat {
     if let sublayers = self.layer.sublayers where settings.totalStars <= sublayers.count {
       let starLayers = Array(sublayers[0..<settings.totalStars])
-      return CosmosSize.calculateSizeToFitLayers(starLayers).width
+      let casted = starLayers.map{ return $0 as! CALayer }
+      return CosmosSize.calculateSizeToFitLayers(casted).width
     }
     
     return 0

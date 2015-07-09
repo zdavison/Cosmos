@@ -98,7 +98,7 @@ class CosmosLayers {
   - returns: Decimal value between 0 and 1 describing the star fill level. 1 is a fully filled star. 0 is an empty star. 0.5 is a half-star.
 
   */
-  class func starFillLevel(ratingRemainder ratingRemainder: Double, fillMode: StarFillMode) -> Double {
+  class func starFillLevel(#ratingRemainder: Double, fillMode: StarFillMode) -> Double {
       
     var result = ratingRemainder
     
